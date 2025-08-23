@@ -1,7 +1,9 @@
+import envVar from '@/config/envVar';
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-    baseURL: 'https://localhost:5000/api/v1'
+    baseURL: envVar.backendBaseUrl,
+    withCredentials: true,
 })
 
 axiosInstance.interceptors.request.use(function (config) {

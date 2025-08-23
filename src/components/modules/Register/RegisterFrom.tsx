@@ -1,12 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import z from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useRegisterUserMutation } from "@/redux/Auth/authApi";
+import { toast } from "sonner";
+import { useState } from "react";
 
 const formSchema = z.object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -18,6 +22,10 @@ const formSchema = z.object({
 })
 
 const SignInFrom = () => {
+    const [registerUser] = useRegisterUserMutation()
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -30,8 +38,23 @@ const SignInFrom = () => {
         },
     })
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        setLoading(true)
+        const toastId = toast('')
+        try {
+            const response = await registerUser(data).unwrap()
+
+            if (response.success) {
+                toast.success(response.message, { id: toastId })
+                setLoading(false)
+                navigate('/')
+            }
+        } catch (error: any) {
+            if (error?.data?.success === false) {
+                toast.error(error.data.message, { id: toastId })
+                setLoading(false)
+            }
+        }
     }
 
     return (
@@ -132,7 +155,7 @@ const SignInFrom = () => {
                                         )}
                                     />
                                 </div>
-                                <Button type="submit">Submit</Button>
+                                <Button disabled={loading} type="submit">Submit</Button>
                                 <div className="mt-4 text-center text-sm">
                                     Have an account?{" "}
                                     <Link to='/login' className="underline underline-offset-4">Login</Link>
