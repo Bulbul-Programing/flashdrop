@@ -84,7 +84,7 @@ export default function Navbar() {
                     <div className="flex items-center gap-6">
                         <Link to='/' className="flex items-center">
                             <Logo />
-                            <h1 className="text-2xl font-black">Flash Drop</h1>
+                            <h1 className="text-xl font-black">Flash Drop</h1>
                         </Link>
                         {/* Navigation menu */}
                         <NavigationMenu className="max-md:hidden">
@@ -94,7 +94,7 @@ export default function Navbar() {
                                         <NavigationMenuLink
                                             href={link.href}
                                             asChild
-                                            className={`py-1.5 font-medium hover:text-primary ${location.pathname === link.href ? "text-primary bg-slate-100" : ""}`}
+                                            className={`py-1.5 font-medium hover:text-primary ${location.pathname === link.href ? "text-primary bg-secondary" : ""}`}
                                         >
                                             <Link to={link.href}>{link.label}</Link>
                                         </NavigationMenuLink>
@@ -107,8 +107,8 @@ export default function Navbar() {
                 {/* Right side */}
                 <div className="flex items-center gap-2">
                     <ThemeToggle />
-                    <Button asChild variant="ghost" size="sm" className="text-sm">
-                        <a href="#">Sign In</a>
+                    <Button asChild variant="ghost" size="sm" className="text-sm bg-primary text-secondary">
+                        <Link to='/login'>Login</Link>
                     </Button>
                 </div>
             </div>
