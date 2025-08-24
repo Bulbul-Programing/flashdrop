@@ -13,6 +13,11 @@ import {
 } from "@/components/ui/popover"
 import { Link, useLocation } from "react-router-dom"
 import ThemeToggle from "../ThemeToggle"
+import { authApi, useGetUserInfoQuery, useLogOutUserMutation } from "@/redux/features/Auth/authApi"
+import { Skeleton } from "../ui/skeleton"
+import { toast } from "sonner"
+import { useState } from "react"
+import { useAppDispatch } from "@/redux/hooks"
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
@@ -22,6 +27,21 @@ const navigationLinks = [
 
 export default function Navbar() {
     const location = useLocation()
+    const { data: userInfo, isLoading } = useGetUserInfoQuery(undefined)
+    const [logOut] = useLogOutUserMutation()
+    const [loading, setLoading] = useState(false)
+    const dispatch = useAppDispatch()
+
+    const handleLogout = async () => {
+        setLoading(true)
+        const res = await logOut(undefined)
+        dispatch(authApi.util.resetApiState())
+        if (res?.data?.success) {
+            toast.success(res?.data?.message)
+            setLoading(false)
+        }
+    }
+
     return (
         <header className="border-b px-4 md:px-6">
             <div className="flex h-16 items-center justify-between gap-4">
@@ -107,9 +127,22 @@ export default function Navbar() {
                 {/* Right side */}
                 <div className="flex items-center gap-2">
                     <ThemeToggle />
-                    <Button asChild variant="ghost" size="sm" className="text-sm bg-primary text-secondary">
-                        <Link to='/login'>Login</Link>
-                    </Button>
+                    {
+                        isLoading ? <Skeleton className="h-8 w-[70px] rounded-md" /> :
+                            <div>
+                                {
+                                    userInfo?.data?.email ?
+                                        <Button onClick={handleLogout} disabled={loading} variant="ghost" size="sm" className="text-sm bg-primary cursor-pointer border-blue-500 border text-secondary">
+                                            Logout
+                                        </Button>
+                                        :
+                                        <Button variant="ghost" size="sm" className="text-sm bg-primary cursor-pointer border-blue-500 border text-secondary">
+                                            <Link to='/login'>Login</Link>
+                                        </Button>
+                                }
+                            </div>
+                    }
+
                 </div>
             </div>
         </header>

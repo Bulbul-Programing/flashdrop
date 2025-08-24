@@ -7,7 +7,7 @@ interface IProps {
 
 const CommonLayout = ({ children }: IProps) => {
     return (
-        <div>
+        <div className="max-w-7xl mx-auto">
             <Navbar />
             {children}
         </div>

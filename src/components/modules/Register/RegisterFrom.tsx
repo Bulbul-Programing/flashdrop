@@ -8,9 +8,9 @@ import { Link, useNavigate } from "react-router-dom";
 import z from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useRegisterUserMutation } from "@/redux/Auth/authApi";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useRegisterUserMutation } from "@/redux/features/Auth/authApi";
 
 const formSchema = z.object({
     name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -40,18 +40,17 @@ const SignInFrom = () => {
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         setLoading(true)
-        const toastId = toast('')
         try {
             const response = await registerUser(data).unwrap()
 
             if (response.success) {
-                toast.success(response.message, { id: toastId })
+                toast.success(response.message)
                 setLoading(false)
-                navigate('/')
+                navigate('/login')
             }
         } catch (error: any) {
             if (error?.data?.success === false) {
-                toast.error(error.data.message, { id: toastId })
+                toast.error(error.data.message)
                 setLoading(false)
             }
         }
@@ -155,7 +154,7 @@ const SignInFrom = () => {
                                         )}
                                     />
                                 </div>
-                                <Button disabled={loading} type="submit">Submit</Button>
+                                <Button className="hover:cursor-pointer" disabled={loading} type="submit">Submit</Button>
                                 <div className="mt-4 text-center text-sm">
                                     Have an account?{" "}
                                     <Link to='/login' className="underline underline-offset-4">Login</Link>
