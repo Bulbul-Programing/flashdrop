@@ -23,10 +23,11 @@ const TrackYourParcel = () => {
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         console.log(data);
     }
+
     return (
-        <div className='bg-[#FEFEFE] shadow-2xl border-2 rounded-lg my-5  min-w-[380px] md:min-w-2xl p-3 md:p-5 mx-auto'>
+        <div className=' bg-background shadow-xl border-2 rounded-lg my-5  min-w-[380px] md:min-w-2xl p-3 md:p-5 mx-auto'>
             <div >
-                <p className='uppercase text-lg font-semibold pb-0 md:inline mr-3'>track your parcel</p>
+                <p className=' uppercase text-lg font-semibold pb-0 md:inline mr-3'>track your parcel</p>
                 <span className='text-sm text-slate-500'>Now you can track your product easily</span>
             </div>
             <div className="mt-4">

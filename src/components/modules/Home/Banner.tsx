@@ -1,4 +1,5 @@
 import TrackYourParcel from "./TrackYourParcel";
+import { motion } from 'motion/react';
 
 const Banner = () => {
     return (
@@ -19,9 +20,25 @@ const Banner = () => {
                 </div>
             </div>
 
-            {/* TrackYourParcel overlapping bottom */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-20">
-                <TrackYourParcel />
+            <div className=" absolute left-1/2 transform -translate-x-1/2 -bottom-20">
+                <motion.div
+                    initial={{
+                        opacity: 0.9,
+                        // if odd index card,slide from right instead of left
+                        y: 50,
+                    }}
+                    whileInView={{
+                        opacity: 1,
+                        y: 0, // Slide in to its original position
+                        transition: {
+                            duration: 1, // Animation duration
+                        },
+                    }}
+                    viewport={{ once: false }}
+                >
+                    <TrackYourParcel />
+                </motion.div>
+
             </div>
         </div>
     );
