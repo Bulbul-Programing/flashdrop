@@ -63,10 +63,10 @@ const AboutUs = () => {
                         {features.map((item, i) => (
                             <motion.div
                                 key={i}
-                                initial={{ opacity: 0, x: -40 }}
+                                initial={{ opacity: 0, y: 40 }}
                                 whileInView={{
                                     opacity: 1,
-                                    x: 0,
+                                    y: 0,
                                     transition: { duration: 0.6, delay: item.delay },
                                 }}
                                 viewport={{ once: true }}
@@ -90,10 +90,10 @@ const AboutUs = () => {
                 {/* Right Image */}
                 <div className="flex- mt-[-40px] md:mt-[-60px] lg:mt-0">
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, y: 50 }}
                         whileInView={{
                             opacity: 1,
-                            x: 0,
+                            y: 0,
                             transition: { duration: 1 },
                         }}
                         viewport={{ once: true }}

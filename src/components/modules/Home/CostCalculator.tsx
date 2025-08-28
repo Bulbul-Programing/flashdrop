@@ -74,11 +74,11 @@ const CostCalculator = ({ defaultCost = 0.00 }: CostCalculatorProps) => {
                 {/* Image Section */}
                 <div className="w-full lg:w-2/5 flex justify-center">
                     <motion.div
-                        initial={{ opacity: 0, x: -70 }}
+                        initial={{ opacity: 0, y: 100 }}
                         whileInView={{
                             opacity: 1,
-                            x: 0,
-                            transition: { duration: 1 },
+                            y: 0,
+                            transition: { duration: 0.6 },
                         }}
                         viewport={{ once: true }}
                     >
@@ -100,10 +100,10 @@ const CostCalculator = ({ defaultCost = 0.00 }: CostCalculatorProps) => {
                 {/* Form Section */}
                 <div className="w-full lg:w-3/5 rounded-lg">
                     <motion.div
-                        initial={{ opacity: 0, x: 70 }}
+                        initial={{ opacity: 0, y: 70 }}
                         whileInView={{
                             opacity: 1,
-                            x: 0,
+                            y: 0,
                             transition: { duration: 1 },
                         }}
                         viewport={{ once: true }}

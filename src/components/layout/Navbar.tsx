@@ -120,6 +120,17 @@ export default function Navbar() {
                                         </NavigationMenuLink>
                                     </NavigationMenuItem>
                                 ))}
+                                {
+                                    userInfo?.data?.email && <NavigationMenuItem >
+                                        <NavigationMenuLink
+                                            href={`/${userInfo?.data?.role}`}
+                                            asChild
+                                            className={`py-1.5 font-medium hover:text-primary`}
+                                        >
+                                            <Link to={`/${userInfo?.data?.role}`}>Dashboard</Link>
+                                        </NavigationMenuLink>
+                                    </NavigationMenuItem>
+                                }
                             </NavigationMenuList>
                         </NavigationMenu>
                     </div>
@@ -142,7 +153,6 @@ export default function Navbar() {
                                 }
                             </div>
                     }
-
                 </div>
             </div>
         </header>
