@@ -10,6 +10,8 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { senderSidebarItems } from "./senderSidebarItems";
 import { receiverSidebarItems } from "./receiverSidebarItems";
 import ReceiverDashboardLayout from "@/components/layout/ReceiverDashboardLayout";
+import { adminSidebarItems } from "./adminSidebarItems";
+import AdminDashboardLayout from "@/components/layout/AdminDashboardLayout";
 
 
 export const router = createBrowserRouter([
@@ -26,6 +28,15 @@ export const router = createBrowserRouter([
                 Component: withAuth(Prices)
             }
         ]
+    },
+    {
+        path: '/admin',
+        Component: AdminDashboardLayout,
+        children: [
+            { index: true, element: <Navigate to="/admin/analytics" /> },
+            ...generateRoutes(adminSidebarItems),
+        ],
+
     },
     {
         path: '/sender',

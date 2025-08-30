@@ -5,13 +5,13 @@ import MyParcel from "@/components/modules/SenderDashborad/MyParcel";
 import type { ISidebarItem } from "@/types";
 
 
-export const receiverSidebarItems: ISidebarItem[] = [
+export const adminSidebarItems: ISidebarItem[] = [
     {
         title: "Dashboard",
         items: [
             {
                 title: "Analytics",
-                url: "/receiver/analytics",
+                url: "/admin/analytics",
                 component: DBAnalytics,
             },
         ],
@@ -21,12 +21,12 @@ export const receiverSidebarItems: ISidebarItem[] = [
         items: [
             {
                 title: "Add New Parcel",
-                url: "/receiver/add-parcel",
+                url: "/admin/add-parcel",
                 component: AddParcelTable,
             },
             {
                 title: "My Parcel",
-                url: "/receiver/add-division",
+                url: "/admin/add-division",
                 component: MyParcel,
             },
         ],

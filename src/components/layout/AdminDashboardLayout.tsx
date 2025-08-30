@@ -4,9 +4,9 @@ import { AppSidebar } from '../app-sidebar';
 import { Separator } from '../ui/separator';
 import { Outlet } from 'react-router-dom';
 
-const ReceiverDashboardLayout = () => {
+const AdminDashboardLayout = () => {
     return (
-        <SidebarProvider className="max-w-7xl mx-auto">
+        <SidebarProvider>
             <AppSidebar />
             <SidebarInset>
                 <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -24,4 +24,4 @@ const ReceiverDashboardLayout = () => {
     );
 };
 
-export default ReceiverDashboardLayout;
+export default AdminDashboardLayout;

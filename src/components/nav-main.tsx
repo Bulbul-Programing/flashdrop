@@ -17,7 +17,7 @@ export function NavMain() {
     navMain: getSidebarItems(userData?.data?.role),
   };
   return (
-    <SidebarGroup>
+    <SidebarGroup className="overflow-x-hidden">
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           {data.navMain.map((item) => (
