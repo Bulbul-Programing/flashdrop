@@ -77,7 +77,7 @@ const DBAnalytics = () => {
                             <p className="text-sm text-gray-600">Total Parcels</p>
                         </div>
                         <div className="flex flex-col items-center justify-center p-4 bg-green-50 rounded-lg">
-                            <p className="text-lg font-semibold text-green-700"> <span className="text-2xl font-bold">৳</span> {totalEarnings}</p>
+                            <p className="text-lg font-semibold text-green-700"> <span className="text-2xl font-bold">৳</span> {totalEarnings.toFixed(2)}</p>
                             <p className="text-sm text-gray-600">Total Earnings</p>
                         </div>
                         <div className="flex flex-col items-center justify-center p-4 bg-purple-50 rounded-lg">
