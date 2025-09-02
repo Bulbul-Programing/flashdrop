@@ -1,69 +1,44 @@
-# React + TypeScript + Vite
+# 📦 Parcel Delivery System  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **modern parcel delivery web application** that allows users to book, track, and manage parcel deliveries in real-time.  
+Built with **MERN Stack** and a **beautiful UI** powered by Tailwind & shadcn/ui.  
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features  
 
-## Expanding the ESLint configuration
+- ✅ **User Roles**: `Admin`, `Sender`, `Receiver` with role-based actions  
+- ✅ **Parcel Booking & Tracking** with unique `Tracking ID`  
+- ✅ **Status Timeline** (Requested → Approved → Dispatched → In-Transit → Delivered)  
+- ✅ **Dynamic Role Actions** (e.g., Sender can cancel, Receiver can confirm delivery)  
+- ✅ **Authentication & Authorization** with JWT  
+- ✅ **Modern Dashboard** with tables, filters, and action buttons  
+- ✅ **Responsive Design** (mobile + desktop)  
+- ✅ **Real-time Status Logs** for transparency  
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠️ Tech Stack  
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+**Frontend:**  
+- React + TypeScript  
+- Tailwind CSS + shadcn/ui  
+- Redux Toolkit Query  
+- Lucide-react Icons  
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Backend:**  
+- Node.js + Express.js  
+- MongoDB + Mongoose  
+- JWT Authentication  
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Other Tools:**  
+- Stripe (for payments if added)  
+- Vercel / Netlify (Frontend Hosting)  
+- Render / Railway (Backend Hosting)  
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🚀 Installation & Setup  
+
+### 🔹 Clone the repo
+```bash
+git clone https://github.com/Bulbul-Programing/flashdrop.git
