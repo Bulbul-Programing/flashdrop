@@ -13,11 +13,7 @@ import { motion } from "framer-motion";
 const formSchema = z.object({
     height: z.number({ message: 'Height is required' }).min(1, { message: 'Height must be greater than 0' }),
     width: z.number({ message: 'Width is required' }).min(1, { message: 'Width must be greater than 0' }),
-    depth: z.number({ message: 'Depth is required' }).min(1, { message: 'Depth must be greater than 0' }),
     weight: z.number({ message: 'Weight is required' }).min(0.1, { message: 'Weight must be at least 0.1 kg' }),
-    locationFrom: z.string({ message: 'Origin location is required' }),
-    locationTo: z.string({ message: 'Destination location is required' }),
-    packageType: z.string({ message: 'Package type is required' }),
 })
 
 type CostCalculatorProps = {
@@ -33,15 +29,12 @@ const CostCalculator = ({ defaultCost = 0.00 }: CostCalculatorProps) => {
         defaultValues: {
             height: undefined,
             width: undefined,
-            depth: undefined,
             weight: undefined,
-            locationFrom: "",
-            locationTo: "",
-            packageType: "",
         },
     })
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
         setLoading(true)
 
         try {
@@ -63,7 +56,7 @@ const CostCalculator = ({ defaultCost = 0.00 }: CostCalculatorProps) => {
     // Mock cost calculation function
     const calculateCost = (data: any): number => {
         // Simple calculation based on volume and weight
-        const volume = data.height * data.width * data.depth;
+        const volume = data.height * data.width;
         const baseCost = volume * 0.01 + data.weight * 2;
         return Math.round(baseCost * 100) / 100;
     }
@@ -144,25 +137,6 @@ const CostCalculator = ({ defaultCost = 0.00 }: CostCalculatorProps) => {
                                                         <FormControl>
                                                             <Input
                                                                 placeholder="Enter width"
-                                                                type="number"
-                                                                {...field}
-                                                                onChange={e => field.onChange(parseFloat(e.target.value))}
-                                                            />
-                                                        </FormControl>
-                                                        <FormMessage />
-                                                    </FormItem>
-                                                )}
-                                            />
-
-                                            <FormField
-                                                control={form.control}
-                                                name="depth"
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>DEPTH (CM)</FormLabel>
-                                                        <FormControl>
-                                                            <Input
-                                                                placeholder="Enter depth"
                                                                 type="number"
                                                                 {...field}
                                                                 onChange={e => field.onChange(parseFloat(e.target.value))}

@@ -1,27 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, type FieldValues, type SubmitHandler } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import z from "zod";
 
 const formSchema = z.object({
-    parcelId: z.string({ message: 'Parcel id is Require' })
+    trackingId: z.string({ message: 'Tracking Id Require!' })
 })
 
 
 const TrackYourParcel = () => {
+    const navigate = useNavigate()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            parcelId: ""
+            trackingId: ""
         },
     })
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         console.log(data);
+        navigate(`/${data.trackingId}/parcelStatus`, { state: data.trackingId })
     }
 
     return (
@@ -33,21 +36,23 @@ const TrackYourParcel = () => {
             <div className="mt-4">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-                        <div className="flex gap-x-3 items-center">
+                        <div className="flex items-center gap-x-4">
                             <FormField
                                 control={form.control}
-                                name="parcelId"
+                                name="trackingId"
                                 render={({ field }) => (
-                                    <FormItem className="flex-1">
+                                    <FormItem className="mb-5 flex-1 ">
+                                        <FormLabel>Tracking Id</FormLabel>
                                         <FormControl>
-                                            <Input className="" placeholder="Your parcel id" {...field} />
+                                            <Input placeholder="Your Parcel Tracking Id" {...field} />
                                         </FormControl>
-                                        <FormMessage />
+                                        {/* <FormMessage /> */}
                                     </FormItem>
                                 )}
                             />
                             <Button className="hover:cursor-pointer" type="submit">Submit</Button>
                         </div>
+
                     </form>
                 </Form>
             </div>

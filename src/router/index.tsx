@@ -2,7 +2,6 @@ import App from "@/App";
 import SenderDashboardLayout from "@/components/layout/SenderDashboardLayout";
 import HomePage from "@/pages/Home/HomePage";
 import Login from "@/pages/Login/Login";
-import Prices from "@/pages/Prices/Prices";
 import Register from "@/pages/Register/Register";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { withAuth } from "@/utils/withAuth";
@@ -12,6 +11,9 @@ import { receiverSidebarItems } from "./receiverSidebarItems";
 import ReceiverDashboardLayout from "@/components/layout/ReceiverDashboardLayout";
 import { adminSidebarItems } from "./adminSidebarItems";
 import AdminDashboardLayout from "@/components/layout/AdminDashboardLayout";
+import ParcelStatus from "@/pages/ParcelStatus/ParcelStatus";
+import AboutUs from "@/pages/About Us/AboutUs";
+import ContactUs from "@/pages/Contact Us/ContactUs";
 
 
 export const router = createBrowserRouter([
@@ -24,14 +26,22 @@ export const router = createBrowserRouter([
                 Component: HomePage
             },
             {
-                path: '/prices',
-                Component: withAuth(Prices)
+                path: '/aboutUs',
+                Component: AboutUs
+            },
+            {
+                path: '/contactUs',
+                Component: ContactUs
+            },
+            {
+                path: '/:parcelId/parcelStatus',
+                Component: withAuth(ParcelStatus)
             }
         ]
     },
     {
         path: '/admin',
-        Component: AdminDashboardLayout,
+        Component: withAuth(AdminDashboardLayout),
         children: [
             { index: true, element: <Navigate to="/admin/analytics" /> },
             ...generateRoutes(adminSidebarItems),
@@ -40,7 +50,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/sender',
-        Component: SenderDashboardLayout,
+        Component: withAuth(SenderDashboardLayout),
         children: [
             { index: true, element: <Navigate to="/sender/analytics" /> },
             ...generateRoutes(senderSidebarItems),
@@ -49,7 +59,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/receiver',
-        Component: ReceiverDashboardLayout,
+        Component: withAuth(ReceiverDashboardLayout),
         children: [
             { index: true, element: <Navigate to="/receiver/analytics" /> },
             ...generateRoutes(receiverSidebarItems),

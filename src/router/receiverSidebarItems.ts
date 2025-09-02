@@ -1,7 +1,6 @@
 
 import AddParcelTable from "@/components/modules/SenderDashborad/AllParcelTable";
 import DBAnalytics from "@/components/modules/SenderDashborad/DBAnalytics";
-import MyParcel from "@/components/modules/SenderDashborad/MyParcel";
 import type { ISidebarItem } from "@/types";
 
 
@@ -20,14 +19,9 @@ export const receiverSidebarItems: ISidebarItem[] = [
         title: "Parcel Management",
         items: [
             {
-                title: "Add New Parcel",
+                title: "All Parcel",
                 url: "/receiver/add-parcel",
                 component: AddParcelTable,
-            },
-            {
-                title: "My Parcel",
-                url: "/receiver/add-division",
-                component: MyParcel,
             },
         ],
     },

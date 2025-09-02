@@ -1,7 +1,6 @@
 
-import AddParcelTable from "@/components/modules/SenderDashborad/AllParcelTable";
-import DBAnalytics from "@/components/modules/SenderDashborad/DBAnalytics";
-import MyParcel from "@/components/modules/SenderDashborad/MyParcel";
+import AdminAllParcel from "@/components/modules/AdminDahsboard/AdminAllParcel";
+import AdminDBAnalytics from "@/components/modules/AdminDahsboard/AdminDBAnalytics";
 import type { ISidebarItem } from "@/types";
 
 
@@ -12,7 +11,7 @@ export const adminSidebarItems: ISidebarItem[] = [
             {
                 title: "Analytics",
                 url: "/admin/analytics",
-                component: DBAnalytics,
+                component: AdminDBAnalytics,
             },
         ],
     },
@@ -22,12 +21,7 @@ export const adminSidebarItems: ISidebarItem[] = [
             {
                 title: "Add New Parcel",
                 url: "/admin/add-parcel",
-                component: AddParcelTable,
-            },
-            {
-                title: "My Parcel",
-                url: "/admin/add-division",
-                component: MyParcel,
+                component: AdminAllParcel,
             },
         ],
     },

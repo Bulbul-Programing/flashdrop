@@ -9,10 +9,9 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { useGetUserInfoQuery } from "@/redux/features/Auth/authApi";
-import { useDeleteParcelMutation, useGetMyAllParcelQuery, useUpdateParcelStatusMutation } from "@/redux/features/parcel/parcelApi";
+import { useDeleteParcelMutation, useGetAdminAllParcelQuery, useUpdateParcelStatusMutation } from "@/redux/features/parcel/parcelApi";
 import type { TParcel } from "@/types/TParcel";
 import { Trash2 } from "lucide-react";
-import AddParcelModal from "./AddParcelModal";
 import DeleteConfirmation from "@/components/DeleteConfirmation";
 import { toast } from "sonner";
 import {
@@ -31,6 +30,7 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import AddParcelModal from "../SenderDashborad/AddParcelModal";
 
 
 const STATUS_FLOW: Record<string, string[]> = {
@@ -42,6 +42,7 @@ const STATUS_FLOW: Record<string, string[]> = {
     cancelled: [],
     blocked: [],
     returned: [],
+    rescheduled: [],
 }
 
 const ROLE_ACTIONS: Record<string, string[]> = {
@@ -53,9 +54,8 @@ const ROLE_ACTIONS: Record<string, string[]> = {
 const formSchema = z.object({
     returnReason: z.string({ message: 'ReturnReason is require' }).min(6, { message: 'ReturnReason is minimum 6 character' })
 })
-
-const AddParcelTable = () => {
-    const { data: parcelInfo } = useGetMyAllParcelQuery(undefined);
+const AdminAllParcel = () => {
+    const { data: parcelInfo } = useGetAdminAllParcelQuery(undefined);
     const { data: userData, } = useGetUserInfoQuery(undefined)
     const [deleteParcel] = useDeleteParcelMutation()
     const [updateParcelStatus] = useUpdateParcelStatusMutation()
@@ -145,7 +145,6 @@ const AddParcelTable = () => {
             }
         }
     }
-
     return (
         <div>
             {
@@ -280,4 +279,4 @@ const AddParcelTable = () => {
     );
 };
 
-export default AddParcelTable;
+export default AdminAllParcel;

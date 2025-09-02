@@ -1,6 +1,5 @@
-import React from 'react';
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '../ui/sidebar';
-import { AppSidebar } from '../app-sidebar';
+import { AppSidebar } from '../ui/app-sidebar';
 import { Separator } from '../ui/separator';
 import { Outlet } from 'react-router-dom';
 

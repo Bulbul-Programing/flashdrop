@@ -12,7 +12,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import { Link, useLocation } from "react-router-dom"
-import ThemeToggle from "../ThemeToggle"
+import ThemeToggle from "../ui/ThemeToggle"
 import { authApi, useGetUserInfoQuery, useLogOutUserMutation } from "@/redux/features/Auth/authApi"
 import { Skeleton } from "../ui/skeleton"
 import { toast } from "sonner"
@@ -22,7 +22,8 @@ import { useAppDispatch } from "@/redux/hooks"
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
     { href: "/", label: "Home", active: true },
-    { href: "/prices", label: "Prices" },
+    { href: "/aboutUs", label: "About Us" },
+    { href: "/contactUs", label: "Contact Us" },
 ]
 
 export default function Navbar() {

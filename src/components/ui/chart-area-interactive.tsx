@@ -12,8 +12,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -264,9 +265,8 @@ export function ChartAreaInteractive() {
                       month: "short",
                       day: "numeric",
                     })
-                  }}
-                  indicator="dot"
-                />
+                  } }
+                  indicator="dot" payload={undefined} label={undefined}                />
               }
             />
             <Area

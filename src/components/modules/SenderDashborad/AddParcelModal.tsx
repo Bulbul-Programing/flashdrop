@@ -2,10 +2,11 @@
 import { Button } from '@/components/ui/button';
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
+    AlertDialogDescription,
     AlertDialogFooter,
+    AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import z from 'zod';
@@ -13,72 +14,152 @@ import { useForm, type FieldValues, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from '@/components/ui/input';
-import { SelectContent, SelectItem, SelectValue, Select, SelectTrigger } from '@/components/ui/select';
-import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { toast } from 'sonner';
+import { useGetReceiversQuery } from '@/redux/features/Auth/authApi';
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+import { CheckIcon, ChevronDownIcon, Asterisk, Loader2Icon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import type { TReceiverUserForCreateParcel } from '@/types';
+import { useCreateParcelMutation } from '@/redux/features/parcel/parcelApi';
 
 const formSchema = z.object({
-    name: z.string().min(2, { message: "Name must be at least 2 characters." }),
-    email: z.email({ message: 'Email is Require' }),
-    phone: z.string().min(11, { message: "Phone number minimum 11 digit" }),
-    role: z.enum(['receiver', 'sender']),
-    password: z.string({ message: 'Password is require' }).min(6, { message: 'Password is minimum 6 character' }),
-    address: z.string({ message: 'Address is require' }).min(5, { message: 'Address minimum 5 characters' })
+    height: z.number({ message: 'Height is required' }).min(1, { message: 'Height must be greater than 0' }),
+    width: z.number({ message: 'Width is required' }).min(1, { message: 'Width must be greater than 0' }),
+    weight: z.number({ message: 'Weight is required' }).min(0.1, { message: 'Weight must be at least 0.1 kg' }),
+    receiver: z.string({ message: 'Receiver is required' }).min(1, { message: 'Receiver is required' }),
 })
 
 const AddParcelModal = () => {
+    const { data: receivesData } = useGetReceiversQuery(undefined)
+    const [createParcel] = useCreateParcelMutation()
+
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+    const [open, setOpen] = useState<boolean>(false)
     const [loading, setLoading] = useState(false)
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name: "",
-            email: "",
-            phone: "",
-            password: "",
-            address: "",
-            role: 'sender'
+            height: undefined,
+            width: undefined,
+            weight: undefined,
+            receiver: "",
         },
     })
 
+    const { reset } = form
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        console.log(data);
+        data.receiver = data.receiver.split('/')[1]
+        setLoading(true)
         try {
-            // const response = await registerUser(data).unwrap()
+            const response = await createParcel(data) as any
 
-            // if (response.success) {
-            //     toast.success(response.message)
-            setLoading(false)
-            //     navigate('/login')
-            // }
+            if (response?.data?.success) {
+                toast.success(response?.data?.message)
+                setLoading(false)
+                reset({ receiver: "", height: 0, width: 0, weight: 0 })
+                setModalOpen(false)
+            }
+            if (response?.error) {
+                toast.success(response?.error?.data?.message)
+                setLoading(false)
+            }
         } catch (error: any) {
-            // if (error?.data?.success === false) {
-            //     toast.error(error.data.message)
-            //     setLoading(false)
-            // }
+            if (error?.data?.success === false) {
+                toast.error(error.data.message)
+                setLoading(false)
+            }
         }
     }
+
     return (
         <div className='mb-3'>
-            <AlertDialog>
+            <AlertDialog open={modalOpen} onOpenChange={setModalOpen}>
                 <AlertDialogTrigger asChild >
                     <div className='flex justify-end'>
                         <Button>Add Parcel</Button>
                     </div>
                 </AlertDialogTrigger>
                 <AlertDialogContent className='md:min-w-[600px] lg:min-w-[700px] '>
+                    <AlertDialogTitle>Add New Parcel</AlertDialogTitle>
+                    <AlertDialogDescription>
+                    </AlertDialogDescription>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+                        <form id='addParcel' onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormField
                                     control={form.control}
-                                    name="name"
+                                    name="receiver"
                                     render={({ field }) => (
-                                        <FormItem className="mb-4">
-                                            <FormLabel>Name</FormLabel>
+                                        <FormItem>
+                                            <FormLabel>Select Receiver</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Jon deo" {...field} />
+                                                <Popover open={open} onOpenChange={setOpen}>
+                                                    <PopoverTrigger asChild>
+                                                        <Button
+                                                            variant="outline"
+                                                            role="combobox"
+                                                            aria-expanded={open}
+                                                            className="w-full justify-between"
+                                                        >
+                                                            <span className={cn("truncate", !field.value && "text-muted-foreground")}>
+                                                                {field.value
+                                                                    ? receivesData?.data?.find((f: TReceiverUserForCreateParcel) => `${f.name}/${f._id}` === field.value).name
+                                                                    : "Select Receiver"}
+                                                            </span>
+                                                            <ChevronDownIcon size={16} className="shrink-0 opacity-50" />
+                                                        </Button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent className="w-full h-[200px] p-0" align="start">
+                                                        <Command>
+                                                            <CommandInput placeholder="Search Receiver..." />
+                                                            <CommandList>
+                                                                <CommandEmpty>No Receiver found.</CommandEmpty>
+                                                                <CommandGroup>
+                                                                    {receivesData?.data?.map((receiver: TReceiverUserForCreateParcel) => (
+                                                                        <CommandItem
+                                                                            key={receiver.name}
+                                                                            value={`${receiver.name}/${receiver._id}`}
+                                                                            onSelect={(currentValue) => {
+                                                                                field.onChange(currentValue);
+                                                                                setOpen(false);
+                                                                            }}
+                                                                        >
+                                                                            <div className='flex flex-col'>
+                                                                                <p className='font-semibold'>Name: {receiver.name}</p>
+                                                                                <div className='flex items-center'>
+                                                                                    <p className='flex items-center mr-2 font-semibold'>Phone: </p>
+                                                                                    <div className='flex'>
+                                                                                        <Asterisk size={10} /><Asterisk size={10} /><Asterisk size={10} /><Asterisk size={10} /><Asterisk size={10} /><Asterisk size={10} /><Asterisk size={10} /><Asterisk size={10} />
+                                                                                    </div>
+                                                                                    <p>{receiver.phone.slice(10)}</p>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            {field.value == `${receiver.name}/${receiver._id}` && (
+                                                                                <CheckIcon size={16} className="ml-auto" />
+                                                                            )}
+                                                                        </CommandItem>
+                                                                    ))}
+                                                                </CommandGroup>
+                                                            </CommandList>
+                                                        </Command>
+                                                    </PopoverContent>
+                                                </Popover>
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -86,88 +167,73 @@ const AddParcelModal = () => {
                                 />
                                 <FormField
                                     control={form.control}
-                                    name="email"
+                                    name="height"
                                     render={({ field }) => (
-                                        <FormItem className="mb-4">
-                                            <FormLabel>Email</FormLabel>
+                                        <FormItem>
+                                            <FormLabel>HEIGHT (CM)</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="example@gmail.com" type="email" {...field} />
+                                                <Input
+                                                    placeholder="Enter height"
+                                                    type="number"
+                                                    {...field}
+                                                    onChange={e => field.onChange(parseFloat(e.target.value))}
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
+
                                 <FormField
                                     control={form.control}
-                                    name="phone"
+                                    name="width"
                                     render={({ field }) => (
-                                        <FormItem className="mb-4">
-                                            <FormLabel>Phone</FormLabel>
+                                        <FormItem>
+                                            <FormLabel>WIDTH (CM)</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="01*********" {...field} />
+                                                <Input
+                                                    placeholder="Enter width"
+                                                    type="number"
+                                                    {...field}
+                                                    onChange={e => field.onChange(parseFloat(e.target.value))}
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
+
                                 <FormField
                                     control={form.control}
-                                    name="role"
+                                    name="weight"
                                     render={({ field }) => (
-                                        <FormItem className="mb-4">
-                                            <FormLabel>Role</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue='sender'>
-                                                <FormControl className="w-full">
-                                                    <SelectTrigger>
-                                                        <SelectValue placeholder="Select your role!" />
-                                                    </SelectTrigger>
-                                                </FormControl>
-                                                <SelectContent >
-                                                    <SelectItem value="sender">Sender</SelectItem>
-                                                    <SelectItem value="receiver">Receiver</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="password"
-                                    render={({ field }) => (
-                                        <FormItem className="mb-4">
-                                            <FormLabel>Password</FormLabel>
+                                        <FormItem>
+                                            <FormLabel>WEIGHT (KG)</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="********" type="password" {...field} />
+                                                <Input
+                                                    placeholder="Enter weight"
+                                                    type="number"
+                                                    step="0.1"
+                                                    {...field}
+                                                    onChange={e => field.onChange(parseFloat(e.target.value))}
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="address"
-                                    render={({ field }) => (
-                                        <FormItem className="mb-4">
-                                            <FormLabel>Address</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Address" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <Button className="hover:cursor-pointer" disabled={loading} type="submit">Submit</Button>
-                            <div className="mt-4 text-center text-sm">
-                                Have an account?{" "}
-                                <Link to='/login' className="underline underline-offset-4">Login</Link>
+
                             </div>
                         </form>
                     </Form>
                     <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction>Okay</AlertDialogAction>
+                        {
+                            loading ? <Button disabled className='hover:cursor-not-allowed'>
+                                <Loader2Icon className="animate-spin" />
+                                Add Parcel
+                            </Button> : <Button type='submit' form='addParcel' className='hover:cursor-pointer'>Add Parcel</Button>
+                        }
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

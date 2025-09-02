@@ -1,5 +1,5 @@
 import * as React from "react"
-import { NavMain } from "@/components/nav-main"
+import { NavMain } from "@/components/ui/nav-main"
 import {
   Sidebar,
   SidebarContent,

@@ -33,8 +33,8 @@ import {
   IconTrendingUp,
 } from "@tabler/icons-react"
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnDef,
+  type ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFacetedRowModel,
@@ -42,10 +42,10 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  Row,
-  SortingState,
+  type Row,
+  type SortingState,
   useReactTable,
-  VisibilityState,
+  type VisibilityState,
 } from "@tanstack/react-table"
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts"
 import { toast } from "sonner"
@@ -55,7 +55,7 @@ import { useIsMobile } from "@/hooks/use-mobile"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -103,16 +103,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import type { schema } from "@/types/SchemaUI"
 
-export const schema = z.object({
-  id: z.number(),
-  header: z.string(),
-  type: z.string(),
-  status: z.string(),
-  target: z.string(),
-  limit: z.string(),
-  reviewer: z.string(),
-})
 
 // Create a separate component for the drag handle
 function DragHandle({ id }: { id: number }) {
@@ -685,7 +677,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
                   />
                   <ChartTooltip
                     cursor={false}
-                    content={<ChartTooltipContent indicator="dot" />}
+                    content={<ChartTooltipContent indicator="dot" payload={undefined} label={undefined} />}
                   />
                   <Area
                     dataKey="mobile"

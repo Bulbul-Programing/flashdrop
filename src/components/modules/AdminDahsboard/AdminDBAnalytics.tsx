@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useGetMyAllParcelQuery } from "@/redux/features/parcel/parcelApi";
+import { useGetAdminAllParcelQuery } from "@/redux/features/parcel/parcelApi";
 import { GetLastTwelveMonthLabel } from "@/utils/GetLastTwelveMonthLabel";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, XAxis, YAxis, LineChart, Line, CartesianGrid } from "recharts";
 
 
-const DBAnalytics = () => {
-    const { data, isLoading } = useGetMyAllParcelQuery(undefined);
+const AdminDBAnalytics = () => {
+    const { data, isLoading } = useGetAdminAllParcelQuery(undefined);
 
     const COLORS = [
         "#F5AB35",
@@ -52,7 +52,7 @@ const DBAnalytics = () => {
     const lastTwelveMonth = GetLastTwelveMonthLabel();
 
     const monthCounts: Record<string, number> = {};
-    
+
     parcels.forEach((p: any) => {
         const d = new Date(p.createdAt);
         const key = d.toLocaleString("default", { month: "short", year: "numeric" });
@@ -149,4 +149,4 @@ const DBAnalytics = () => {
     );
 };
 
-export default DBAnalytics;
+export default AdminDBAnalytics;

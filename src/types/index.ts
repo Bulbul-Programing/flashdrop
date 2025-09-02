@@ -8,3 +8,9 @@ export type ISidebarItem = {
         component: ComponentType;
     }[];
 }
+
+export type TReceiverUserForCreateParcel = {
+    _id: string;
+    name: string;
+    phone: string;
+}
