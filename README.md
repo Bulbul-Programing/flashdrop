@@ -3,6 +3,10 @@
 A **modern parcel delivery web application** that allows users to book, track, and manage parcel deliveries in real-time.  
 Built with **MERN Stack** and a **beautiful UI** powered by Tailwind & shadcn/ui.  
 
+### 🔹 Live link
+```bash
+ https://flashd-drop-frontend.vercel.app/
+```
 
 ## ✨ Features  
 
