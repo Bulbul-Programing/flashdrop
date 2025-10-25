@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/sidebar"
 import { useGetUserInfoQuery } from "@/redux/features/Auth/authApi";
 import { getSidebarItems } from "@/utils/getSidebarItems";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export function NavMain() {
   const { data: userData } = useGetUserInfoQuery(undefined);
-
+  const location = useLocation()
   const data = {
     navMain: getSidebarItems(userData?.data?.role),
   };
@@ -22,12 +22,12 @@ export function NavMain() {
         <SidebarMenu>
           {data.navMain.map((item) => (
             <SidebarGroup key={item.title}>
-              <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+              <SidebarGroupLabel className="text-slate-400">{item.title}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {item.items.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild>
+                      <SidebarMenuButton className={`${location.pathname === item.url ? "font-semibold bg-[#F5AB35] " : "bg-[#ffeccd]"} border  hover:bg-[#F5AB35] transition-all`} asChild>
                         <Link to={item.url}>{item.title}</Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -36,16 +36,18 @@ export function NavMain() {
               </SidebarGroupContent>
             </SidebarGroup>
           ))}
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarMenu >
+                <SidebarMenuItem>
+                  <SidebarMenuButton className={` font-semibold bg-[#ffeccd] border  hover:bg-[#F5AB35] transition-all`} asChild>
+                    <Link to='/'>Home</Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
 
-          <SidebarGroupContent>
-            <SidebarMenu >
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to='/'>Home</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

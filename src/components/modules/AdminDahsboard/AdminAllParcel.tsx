@@ -33,6 +33,14 @@ import { Input } from "@/components/ui/input";
 import AddParcelModal from "../SenderDashborad/AddParcelModal";
 import { SlGraph } from "react-icons/sl";
 import AdminParcelStatusLog from "@/pages/Admin/AdminParcelStatusLog";
+import {
+    DropdownMenu,
+    DropdownMenuCheckboxItem,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 const STATUS_FLOW: Record<string, string[]> = {
     requested: ["approved", "cancelled", "blocked"],
@@ -65,7 +73,6 @@ const AdminAllParcel = () => {
     const [returnParcelId, setReturnParcelId] = useState('')
     const [parcelStatusId, setParcelStatusId] = useState('')
     const [statusModal, setStatusModal] = useState(false)
-
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -155,8 +162,8 @@ const AdminAllParcel = () => {
                 (userData?.data?.role === 'sender' || userData?.data?.role === 'admin') && <AddParcelModal />
             }
 
-            <div className="rounded-2xl border border-gray-200 shadow-md overflow-x-auto">
-                <Table className=" overflow-x-scroll">
+            <div className="rounded-2xl border border-gray-200 shadow-md overflow-x-auto w-full">
+                <Table className="w-full">
                     <TableHeader className="bg-[#F5AB35] text-white">
                         <TableRow>
                             <TableHead className="text-white">Tracking ID</TableHead>
@@ -178,9 +185,9 @@ const AdminAllParcel = () => {
 
                             return (
                                 <TableRow key={parcel._id} className="hover:bg-gray-50">
-                                    <TableCell className="font-medium">{parcel.trackingId}</TableCell>
+                                    <TableCell className="max-w-[150px] truncate">{parcel.trackingId}</TableCell>
                                     <TableCell>{parcel.receiver?.name}</TableCell>
-                                    <TableCell className="max-w-[220px] truncate">
+                                    <TableCell className="max-w-[200px] truncate">
                                         {parcel.receiverAddress}
                                     </TableCell>
                                     <TableCell>{parcel.weight} kg</TableCell>
@@ -198,32 +205,40 @@ const AdminAllParcel = () => {
                                         </span>
                                     </TableCell>
                                     <TableCell className="flex items-center justify-end gap-2">
-
-                                        {actions.map((action) => (
-                                            <Button
-                                                key={action}
-                                                onClick={() => handleUpdateParcelStatus(parcel._id, action)}
-                                                size="sm"
-                                                className="bg-[#F5AB35] text-white hover:bg-[#d99427]"
-                                            >
-                                                {action}
-                                            </Button>
-                                        ))}
                                         {
-                                            userData?.data?.role === 'admin' && <DeleteConfirmation
-                                                onConfirm={() => handleDeleteParcel(parcel._id)}
-                                            >
+                                            actions.length > 0 ? <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button className="bg-[#F5AB35] hover:bg-[#d99427]" variant="outline">Update Status</Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent className="w-56">
+                                                    <DropdownMenuLabel>Update Parcel Status</DropdownMenuLabel>
+                                                    <DropdownMenuSeparator />
+                                                    {actions.map((action) => (
+                                                        <DropdownMenuCheckboxItem className="p-0 m-2">
+                                                            <Button
+                                                                key={action}
+                                                                onClick={() => handleUpdateParcelStatus(parcel._id, action)}
+                                                                size="sm"
+                                                                className="w-full bg-[#F5AB35]  hover:bg-[#d99427]"
+                                                            >
+                                                                {action}
+                                                            </Button>
+                                                        </DropdownMenuCheckboxItem>
+                                                    ))}
+                                                </DropdownMenuContent>
+                                            </DropdownMenu> :
                                                 <Button
-                                                    size="icon"
-                                                    variant="ghost"
-                                                    className="text-red-500 hover:bg-red-50"
+                                                    size="sm"
+                                                    disabled
+                                                    className=" cursor-not-allowed"
                                                 >
-                                                    <Trash2 className="w-4 h-4" />
+                                                    No Action
                                                 </Button>
-                                            </DeleteConfirmation>
                                         }
+
+
                                         {
-                                            userData?.data?.role === 'sender' && <DeleteConfirmation
+                                            (userData?.data?.role === 'admin' || userData?.data?.role === 'sender') && <DeleteConfirmation
                                                 onConfirm={() => handleDeleteParcel(parcel._id)}
                                             >
                                                 <Button

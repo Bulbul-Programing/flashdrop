@@ -43,8 +43,45 @@ export const authApi = baseApi.injectEndpoints({
                     method: "GET"
                 }
             }
+        }),
+        getAllUser: builder.query({
+            query: () => {
+                return {
+                    url: "/user/all-users",
+                    method: "GET"
+                }
+            },
+            providesTags: ['user']
+        }),
+        updateUserStatus: builder.mutation({
+            query: (payload) => {
+                return {
+                    url: `/user/update/${payload.userId}`,
+                    method: "PUT",
+                    data: payload.data
+                }
+            },
+            invalidatesTags: ['user']
+        }),
+        deleteUser: builder.mutation({
+            query: (userId) => {
+                return {
+                    url: `/user/${userId}`,
+                    method: "DELETE"
+                }
+            },
+            invalidatesTags: ['user']
         })
     })
 })
 
-export const { useRegisterUserMutation, useLoginUserMutation, useLogOutUserMutation, useGetUserInfoQuery, useGetReceiversQuery } = authApi
+export const {
+    useRegisterUserMutation,
+    useLoginUserMutation,
+    useLogOutUserMutation,
+    useGetUserInfoQuery,
+    useGetReceiversQuery,
+    useGetAllUserQuery,
+    useUpdateUserStatusMutation,
+    useDeleteUserMutation
+} = authApi

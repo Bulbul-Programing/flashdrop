@@ -5,7 +5,6 @@ import {
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
-    AlertDialogFooter,
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
@@ -22,20 +21,20 @@ const DeleteConfirmation = ({ children, onConfirm }: IProps) => {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className='text-center'>
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                    <AlertDialogDescription>
+                    <AlertDialogTitle className='text-xl font-bold text-red-500 text-center'>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription className='text-red-400 text-center my-3'>
                         This action cannot be undone. This will permanently delete your
                         account and remove your data from our servers.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
+                <div className='space-x-2'>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleConfirm}>
+                    <AlertDialogAction className='text-white bg-red-500 hover:bg-red-600 cursor-pointer' onClick={handleConfirm}>
                         Delete
                     </AlertDialogAction>
-                </AlertDialogFooter>
+                </div>
             </AlertDialogContent>
         </AlertDialog>
     );

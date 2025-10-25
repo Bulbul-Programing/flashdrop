@@ -5,8 +5,8 @@ import { Outlet } from 'react-router-dom';
 
 const AdminDashboardLayout = () => {
     return (
-        <div className="max-w-7xl mx-auto">
-            <SidebarProvider >
+        <div className="w-full overflow-hidden"> {/* ← Prevent full-page overflow */}
+            <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>
                     <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
@@ -16,7 +16,7 @@ const AdminDashboardLayout = () => {
                             className="mr-2 data-[orientation=vertical]:h-4"
                         />
                     </header>
-                    <div className="flex flex-1 flex-col gap-4 p-4 overflow-hidden">
+                    <div className="flex flex-1 flex-col gap-4 p-4 overflow-y-auto">
                         <Outlet />
                     </div>
                 </SidebarInset>
