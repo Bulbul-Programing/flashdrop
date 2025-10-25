@@ -31,7 +31,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import AddParcelModal from "../SenderDashborad/AddParcelModal";
-
+import { SlGraph } from "react-icons/sl";
+import AdminParcelStatusLog from "@/pages/Admin/AdminParcelStatusLog";
 
 const STATUS_FLOW: Record<string, string[]> = {
     requested: ["approved", "cancelled", "blocked"],
@@ -62,6 +63,9 @@ const AdminAllParcel = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [returnLoading, setReturnLoading] = useState(false)
     const [returnParcelId, setReturnParcelId] = useState('')
+    const [parcelStatusId, setParcelStatusId] = useState('')
+    const [statusModal, setStatusModal] = useState(false)
+
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -231,7 +235,7 @@ const AdminAllParcel = () => {
                                                 </Button>
                                             </DeleteConfirmation>
                                         }
-
+                                        <SlGraph onClick={() => (setStatusModal(true), setParcelStatusId(parcel.trackingId))} className="bg-[#F5AB35] hover:cursor-pointer p-1 rounded-md text-white hover:bg-[#d99427]" size={25} />
                                     </TableCell>
                                 </TableRow>
                             )
@@ -271,6 +275,20 @@ const AdminAllParcel = () => {
                             <AlertDialogAction>
                                 <Button className="hover:cursor-pointer" form="returnParcel" disabled={returnLoading} type="submit">Submit</Button>
                             </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+                {/* Modal for parcel status */}
+                <AlertDialog open={statusModal} onOpenChange={setStatusModal}>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle></AlertDialogTitle>
+                            <AlertDialogDescription>
+                                <AdminParcelStatusLog parcelId={parcelStatusId} />
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel onClick={() => setParcelStatusId('')}>Cancel</AlertDialogCancel>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
