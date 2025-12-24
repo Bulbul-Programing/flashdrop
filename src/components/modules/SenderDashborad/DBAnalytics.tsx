@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetMyAllParcelQuery } from "@/redux/features/parcel/parcelApi";
+import SellerDashboardSkeleton from "@/Skeleton/SellerDashboardSkeleton";
 import { GetLastTwelveMonthLabel } from "@/utils/GetLastTwelveMonthLabel";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, XAxis, YAxis, LineChart, Line, CartesianGrid } from "recharts";
 
@@ -20,10 +21,6 @@ const DBAnalytics = () => {
         "#6D4C41",
         "#8E24AA"
     ];
-
-    if (isLoading) {
-        return <p className="text-center py-10">Loading analytics...</p>;
-    }
 
     const parcels = data?.data || [];
 
@@ -52,7 +49,7 @@ const DBAnalytics = () => {
     const lastTwelveMonth = GetLastTwelveMonthLabel();
 
     const monthCounts: Record<string, number> = {};
-    
+
     parcels.forEach((p: any) => {
         const d = new Date(p.createdAt);
         const key = d.toLocaleString("default", { month: "short", year: "numeric" });
@@ -63,6 +60,10 @@ const DBAnalytics = () => {
         label,                // e.g., "Jan 2025"
         count: monthCounts[label] ?? 0,
     }));
+
+    if (isLoading) {
+        return <SellerDashboardSkeleton />
+    }
 
     return (
         <div>
@@ -145,7 +146,6 @@ const DBAnalytics = () => {
                 </Card>
             </div>
         </div>
-
     );
 };
 

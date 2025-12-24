@@ -62,10 +62,10 @@ const CostCalculator = ({ defaultCost = 0.00 }: CostCalculatorProps) => {
     }
 
     return (
-        <div className="w-full  p-4 py-10 border-b-4 border-[#FBAE3F]">
+        <div className="w-full px-5 py-10 border-b-4 border-[#FBAE3F]">
             <div className="flex flex-col lg:flex-row gap-8 items-center justify-between">
                 {/* Image Section */}
-                <div className="w-full lg:w-2/5 flex justify-center">
+                <div className="w-full p-5 lg:w-2/5 flex justify-center">
                     <motion.div
                         initial={{ opacity: 0, y: 100 }}
                         whileInView={{

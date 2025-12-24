@@ -34,13 +34,12 @@ export const parcelApi = baseApi.injectEndpoints({
         }),
 
         getParcelStatus: builder.query({
-            query: (parcelId) => {
+            query: (parcelId: string) => {
                 return {
                     url: `/parcels/${parcelId}/statusLog`,
                     method: "GET"
                 }
-            },
-            providesTags: ['parcel']
+            }
         }),
 
         deleteParcel: builder.mutation({

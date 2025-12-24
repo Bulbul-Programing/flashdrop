@@ -14,9 +14,10 @@ import { Trash2 } from 'lucide-react';
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { toast } from 'sonner';
+import UsersTableSkeleton from '@/Skeleton/UsersTableSkeleton';
 
 const AllUsers = () => {
-    const { data: users } = useGetAllUserQuery(undefined)
+    const { data: users, isLoading } = useGetAllUserQuery(undefined)
     const [deleteUser] = useDeleteUserMutation()
     const [updateUser] = useUpdateUserStatusMutation()
 
@@ -52,10 +53,14 @@ const AllUsers = () => {
         }
     }
 
+    if (isLoading) {
+        return <UsersTableSkeleton />
+    }
+
     return (
         <div>
             <div className="rounded-2xl border border-gray-200 shadow-md overflow-x-auto w-full">
-                <Table className="w-full">
+                <Table>
                     <TableHeader className="bg-[#F5AB35] text-white">
                         <TableRow>
                             <TableHead className="text-white">User ID</TableHead>

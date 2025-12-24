@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 
 const AdminDashboardLayout = () => {
     return (
-        <div className="w-full overflow-hidden"> {/* ← Prevent full-page overflow */}
+        <div className="w-full max-w-7xl overflow-hidden"> {/* ← Prevent full-page overflow */}
             <SidebarProvider>
                 <AppSidebar />
                 <SidebarInset>

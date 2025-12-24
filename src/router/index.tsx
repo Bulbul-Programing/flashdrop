@@ -14,6 +14,8 @@ import AdminDashboardLayout from "@/components/layout/AdminDashboardLayout";
 import ParcelStatus from "@/pages/ParcelStatus/ParcelStatus";
 import AboutUs from "@/pages/About Us/AboutUs";
 import ContactUs from "@/pages/Contact Us/ContactUs";
+import TrackingPage from "@/pages/Tracking/TrackingPage";
+import PrivacyAndPolicy from "@/pages/Privacy/PrivacyAndPolicy";
 
 
 export const router = createBrowserRouter([
@@ -26,6 +28,10 @@ export const router = createBrowserRouter([
                 Component: HomePage
             },
             {
+                path: '/tracking',
+                Component: TrackingPage
+            },
+            {
                 path: '/aboutUs',
                 Component: AboutUs
             },
@@ -34,7 +40,11 @@ export const router = createBrowserRouter([
                 Component: ContactUs
             },
             {
-                path: '/:parcelId/parcelStatus',
+                path: '/privacy',
+                Component: PrivacyAndPolicy
+            },
+            {
+                path: '/parcelStatus/:parcelId',
                 Component: withAuth(ParcelStatus)
             }
         ]

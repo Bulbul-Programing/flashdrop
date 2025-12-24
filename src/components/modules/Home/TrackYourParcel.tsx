@@ -14,7 +14,7 @@ const formSchema = z.object({
 
 const TrackYourParcel = () => {
     const navigate = useNavigate()
-
+    
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -24,7 +24,7 @@ const TrackYourParcel = () => {
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         console.log(data);
-        navigate(`/${data.trackingId}/parcelStatus`, { state: data.trackingId })
+        navigate(`/parcelStatus/${data.trackingId}`, { state: data.trackingId })
     }
 
     return (

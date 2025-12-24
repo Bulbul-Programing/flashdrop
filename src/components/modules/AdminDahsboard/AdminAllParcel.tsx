@@ -41,6 +41,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import ParcelTableSkeleton from "@/Skeleton/ParcelTableSkeleton";
 
 const STATUS_FLOW: Record<string, string[]> = {
     requested: ["approved", "cancelled", "blocked"],
@@ -64,7 +65,7 @@ const formSchema = z.object({
     returnReason: z.string({ message: 'ReturnReason is require' }).min(6, { message: 'ReturnReason is minimum 6 character' })
 })
 const AdminAllParcel = () => {
-    const { data: parcelInfo } = useGetAdminAllParcelQuery(undefined);
+    const { data: parcelInfo, isLoading } = useGetAdminAllParcelQuery(undefined);
     const { data: userData, } = useGetUserInfoQuery(undefined)
     const [deleteParcel] = useDeleteParcelMutation()
     const [updateParcelStatus] = useUpdateParcelStatusMutation()
@@ -156,6 +157,11 @@ const AdminAllParcel = () => {
             }
         }
     }
+
+    if (isLoading) {
+        return <ParcelTableSkeleton />
+    }
+
     return (
         <div>
             {

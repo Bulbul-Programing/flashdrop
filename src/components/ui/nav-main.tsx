@@ -22,12 +22,12 @@ export function NavMain() {
         <SidebarMenu>
           {data.navMain.map((item) => (
             <SidebarGroup key={item.title}>
-              <SidebarGroupLabel className="text-slate-400">{item.title}</SidebarGroupLabel>
+              <SidebarGroupLabel className="">{item.title}</SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
                   {item.items.map((item) => (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton className={`${location.pathname === item.url ? "font-semibold bg-[#F5AB35] " : "bg-[#ffeccd]"} border  hover:bg-[#F5AB35] transition-all`} asChild>
+                      <SidebarMenuButton className={`${location.pathname === item.url ? "font-semibold bg-[#F5AB35] " : "bg-[#ffeccd] text-black"} border  hover:bg-[#F5AB35] transition-all`} asChild>
                         <Link to={item.url}>{item.title}</Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -40,7 +40,7 @@ export function NavMain() {
             <SidebarGroupContent>
               <SidebarMenu >
                 <SidebarMenuItem>
-                  <SidebarMenuButton className={` font-semibold bg-[#ffeccd] border  hover:bg-[#F5AB35] transition-all`} asChild>
+                  <SidebarMenuButton className={` font-semibold bg-[#ffeccd] text-black border  hover:bg-[#F5AB35] transition-all`} asChild>
                     <Link to='/'>Home</Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

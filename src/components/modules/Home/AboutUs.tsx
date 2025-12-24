@@ -20,7 +20,7 @@ const features = [
 
 const AboutUs = () => {
     return (
-        <section className=" pt-24 md:pt-28 lg:pt-24 border-b-4 border-[#FBAE3F]">
+        <section className="px-5 pt-24 md:pt-28 lg:pt-24 border-b-4 border-[#FBAE3F]">
             <div className="container  flex flex-col lg:flex-row justify-baseline items-center px-4 md:px-8 ">
 
                 {/* Left Content */}

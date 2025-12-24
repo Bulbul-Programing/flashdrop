@@ -13,38 +13,42 @@ import {
 } from "@/components/ui/popover"
 import { Link, useLocation } from "react-router-dom"
 import ThemeToggle from "../ui/ThemeToggle"
-import { authApi, useGetUserInfoQuery, useLogOutUserMutation } from "@/redux/features/Auth/authApi"
-import { Skeleton } from "../ui/skeleton"
-import { toast } from "sonner"
-import { useState } from "react"
-import { useAppDispatch } from "@/redux/hooks"
+import { useEffect, useState } from "react"
+import UserStatus from "./UserStatus"
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
     { href: "/", label: "Home", active: true },
+    { href: "/tracking", label: "Tracking" },
     { href: "/aboutUs", label: "About Us" },
     { href: "/contactUs", label: "Contact Us" },
+    { href: "/privacy", label: "Privacy" },
 ]
 
 export default function Navbar() {
     const location = useLocation()
-    const { data: userInfo, isLoading } = useGetUserInfoQuery(undefined)
-    const [logOut] = useLogOutUserMutation()
-    const [loading, setLoading] = useState(false)
-    const dispatch = useAppDispatch()
+    const [hideNavbar, setHideNavbar] = useState(false);
+    const [scrollValue, setScrollValue] = useState(0);
 
-    const handleLogout = async () => {
-        setLoading(true)
-        const res = await logOut(undefined)
-        dispatch(authApi.util.resetApiState())
-        if (res?.data?.success) {
-            toast.success(res?.data?.message)
-            setLoading(false)
-        }
-    }
+    useEffect(() => {
+        const handleScroll = () => {
+            if (scrollValue < window.scrollY) {
+                setHideNavbar(true);
+            } else {
+                setHideNavbar(false);
+            }
+            setScrollValue(window.scrollY);
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, [scrollValue]);
 
     return (
-        <header className="border-b px-4 md:px-6">
+        <header className={`sticky px-5 top-0 z-50 bg-background ${hideNavbar ? "translate-y-[-110px]" : "top-0 translate-y-0"} backdrop-blur transition duration-500 border-b`}>
             <div className="flex h-16 items-center justify-between gap-4">
                 {/* Left side */}
                 <div className="flex items-center gap-2">
@@ -121,7 +125,7 @@ export default function Navbar() {
                                         </NavigationMenuLink>
                                     </NavigationMenuItem>
                                 ))}
-                                {
+                                {/* {
                                     userInfo?.data?.email && <NavigationMenuItem >
                                         <NavigationMenuLink
                                             href={`/${userInfo?.data?.role}`}
@@ -131,7 +135,7 @@ export default function Navbar() {
                                             <Link to={`/${userInfo?.data?.role}`}>Dashboard</Link>
                                         </NavigationMenuLink>
                                     </NavigationMenuItem>
-                                }
+                                } */}
                             </NavigationMenuList>
                         </NavigationMenu>
                     </div>
@@ -139,7 +143,8 @@ export default function Navbar() {
                 {/* Right side */}
                 <div className="flex items-center gap-2">
                     <ThemeToggle />
-                    {
+                    <UserStatus />
+                    {/* {
                         isLoading ? <Skeleton className="h-8 w-[70px] rounded-md" /> :
                             <div>
                                 {
@@ -153,7 +158,7 @@ export default function Navbar() {
                                         </Button>
                                 }
                             </div>
-                    }
+                    } */}
                 </div>
             </div>
         </header>
