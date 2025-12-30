@@ -7,15 +7,21 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { useGetUserInfoQuery } from "@/redux/features/Auth/authApi";
+import SidebarSkeleton from "@/Skeleton/SidebarSkeleton";
 import { getSidebarItems } from "@/utils/getSidebarItems";
 import { Link, useLocation } from "react-router-dom";
 
 export function NavMain() {
-  const { data: userData } = useGetUserInfoQuery(undefined);
+  const { data: userData, isLoading } = useGetUserInfoQuery(undefined);
   const location = useLocation()
   const data = {
     navMain: getSidebarItems(userData?.data?.role),
   };
+
+  if (isLoading) {
+    return <SidebarSkeleton />
+  }
+
   return (
     <SidebarGroup className="overflow-x-hidden">
       <SidebarGroupContent className="flex flex-col gap-2">

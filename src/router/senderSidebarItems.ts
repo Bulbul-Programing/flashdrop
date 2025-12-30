@@ -1,6 +1,7 @@
 
 import AddParcelTable from "@/components/modules/SenderDashborad/AllParcelTable";
 import DBAnalytics from "@/components/modules/SenderDashborad/DBAnalytics";
+import Profile from "@/pages/Profile/Profile";
 import type { ISidebarItem } from "@/types";
 
 
@@ -12,6 +13,16 @@ export const senderSidebarItems: ISidebarItem[] = [
                 title: "Analytics",
                 url: "/sender/analytics",
                 component: DBAnalytics,
+            },
+        ],
+    },
+    {
+        title: "Profile",
+        items: [
+            {
+                title: "Profile",
+                url: "/sender/profile",
+                component: Profile,
             },
         ],
     },

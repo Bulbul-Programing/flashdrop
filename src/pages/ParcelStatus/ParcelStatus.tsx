@@ -16,7 +16,7 @@ const statusIcons: Record<string, any> = {
 
 const ParcelStatus = () => {
     const location = useLocation();
-    console.log(location);
+
     const { data: parcelStatusData, isLoading } = useGetParcelStatusQuery(location.state, { skip: !location })
     const parcel = parcelStatusData?.data
 
