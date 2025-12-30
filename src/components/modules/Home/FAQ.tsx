@@ -68,7 +68,7 @@ const FAQ = () => {
                         viewport={{ once: true }}
                         className="w-full flex justify-end"
                     >
-                        <img className="w-[500px]" src="https://res.cloudinary.com/depy0i4bl/image/upload/v1766582261/freepik__talk__26942_omen5q.png" alt="" />
+                        <img className="w-[500px] rounded-xl" src="https://res.cloudinary.com/depy0i4bl/image/upload/v1766582261/freepik__talk__26942_omen5q.png" alt="" />
                     </motion.div>
 
                 </div>

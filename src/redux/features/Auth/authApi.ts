@@ -71,7 +71,15 @@ export const authApi = baseApi.injectEndpoints({
                 }
             },
             invalidatesTags: ['user']
-        })
+        }),
+        googleLogin: builder.mutation({
+            query: () => {
+                return {
+                    url: '/auth/google',
+                    method: "GET"
+                }
+            }
+        }),
     })
 })
 
@@ -83,5 +91,6 @@ export const {
     useGetReceiversQuery,
     useGetAllUserQuery,
     useUpdateUserStatusMutation,
-    useDeleteUserMutation
+    useDeleteUserMutation,
+    useGoogleLoginMutation
 } = authApi

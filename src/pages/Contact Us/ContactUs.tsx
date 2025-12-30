@@ -36,29 +36,29 @@ const ContactUs = () => {
         })
     }
     return (
-        <section className="py-16 bg-white">
-            <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12">
+        <section className="py-16 ">
+            <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 justify-center items-center gap-12">
                 {/* Contact Info */}
                 <div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
+                    <h2 className="text-3xl md:text-4xl font-bold  mb-6">
                         Contact <span className="text-[#F5AB35]">Us</span>
                     </h2>
-                    <p className="text-gray-600 mb-8">
+                    <p className=" mb-8">
                         Have questions or need assistance? Reach out to us anytime.
                     </p>
 
                     <div className="space-y-4">
                         <div className="flex items-center gap-4">
                             <Mail className="w-6 h-6 text-[#F5AB35]" />
-                            <p className="text-gray-700">support@example.com</p>
+                            <p className="">bulbulahammedriad@gmail.com</p>
                         </div>
                         <div className="flex items-center gap-4">
                             <Phone className="w-6 h-6 text-[#F5AB35]" />
-                            <p className="text-gray-700">+8801872-0*****</p>
+                            <p className="">+8801872-022662</p>
                         </div>
                         <div className="flex items-center gap-4">
                             <MapPin className="w-6 h-6 text-[#F5AB35]" />
-                            <p className="text-gray-700">Dhaka, Bangladesh</p>
+                            <p className="">Dhaka, Bangladesh</p>
                         </div>
                     </div>
                 </div>

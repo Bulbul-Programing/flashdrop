@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -48,6 +49,45 @@ const LoginForm = () => {
         }
     }
 
+    const loginWithCredential = async (role: string) => {
+        let payload
+        if (role === 'admin') {
+            payload = {
+                email: "a@gmail.com",
+                password: '112233'
+            }
+        }
+        if (role === 'sender') {
+            payload = {
+                email: "e@gmail.com",
+                password: '112233'
+            }
+        }
+        if (role === 'receiver') {
+            payload = {
+                email: "r@gmail.com",
+                password: '112233'
+            }
+        }
+        setLoading(true)
+
+        try {
+            const response = await loginUser(payload).unwrap()
+
+            if (response.success) {
+                toast.success(response.message)
+                setLoading(false)
+                navigate('/')
+            }
+        } catch (error: any) {
+            if (error?.data?.success === false) {
+                toast.error(error.data.message)
+                setLoading(false)
+            }
+        }
+
+    }
+
     return (
         <div className="w-full max-w-sm">
             <div className='flex flex-col gap-6'>
@@ -87,13 +127,26 @@ const LoginForm = () => {
                                         )}
                                     />
                                 </div>
-                                <Button className="hover:cursor-pointer" disabled={loading} type="submit">Submit</Button>
-                                <div className="mt-4 text-center text-sm">
-                                    Don&apos;t have an account?{" "}
-                                    <Link to='/register' className="underline underline-offset-4">Register</Link>
-                                </div>
+                                <Button className="hover:cursor-pointer w-full" disabled={loading} type="submit">Submit</Button>
                             </form>
                         </Form>
+                        <Button onClick={() => window.open(`https://flashdrop-one.vercel.app/api/v1/auth/google`)} className=" w-full cursor-pointer bg-primary rounded-lg mt-5 p-1">
+                            <img className="w-6" src="https://res.cloudinary.com/depy0i4bl/image/upload/v1767024255/icons8-google-480_uememu.png" alt="" />
+                            <p >Login With Google</p>
+                        </Button  >
+                        <div>
+                            <p className="font-semibold my-3">Login As : </p>
+                            <div className="flex gap-x-4">
+                                <Button disabled={loading} onClick={() => loginWithCredential('admin')} className="cursor-pointer" size="sm">Admin</Button>
+                                <Button disabled={loading} onClick={() => loginWithCredential('sender')} className="cursor-pointer" size="sm">Sender</Button>
+                                <Button disabled={loading} onClick={() => loginWithCredential('receiver')} className="cursor-pointer" size="sm">Receiver</Button>
+                            </div>
+                        </div>
+
+                        <div className="mt-4 text-center text-sm">
+                            Don&apos;t have an account?{" "}
+                            <Link to='/register' className="underline underline-offset-4">Register</Link>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

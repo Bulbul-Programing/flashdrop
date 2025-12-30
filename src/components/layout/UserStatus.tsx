@@ -1,6 +1,6 @@
 import { authApi, useGetUserInfoQuery, useLogOutUserMutation } from '@/redux/features/Auth/authApi';
 import { useAppDispatch } from '@/redux/hooks';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { Skeleton } from '../ui/skeleton';

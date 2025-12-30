@@ -33,6 +33,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { SlGraph } from "react-icons/sl";
 import AdminParcelStatusLog from "@/pages/Admin/AdminParcelStatusLog";
+import ParcelTableSkeletonReceiver from "@/Skeleton/ParcelTableSkeletonReceiver";
 
 
 const STATUS_FLOW: Record<string, string[]> = {
@@ -57,7 +58,7 @@ const formSchema = z.object({
 })
 
 const AddParcelTable = () => {
-    const { data: parcelInfo } = useGetMyAllParcelQuery(undefined);
+    const { data: parcelInfo, isLoading } = useGetMyAllParcelQuery(undefined);
     const { data: userData, } = useGetUserInfoQuery(undefined)
     const [deleteParcel] = useDeleteParcelMutation()
     const [updateParcelStatus] = useUpdateParcelStatusMutation()
@@ -148,6 +149,10 @@ const AddParcelTable = () => {
                 toast.error(err?.data?.message || "Removed", { id: toastId });
             }
         }
+    }
+
+    if(isLoading){
+        return <ParcelTableSkeletonReceiver />
     }
 
     return (
